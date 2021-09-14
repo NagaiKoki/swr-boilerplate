@@ -1,7 +1,7 @@
 import useSWR, { KeyedMutator } from "swr";
 import { Fetcher } from "swr/dist/types";
 
-type FetchKeyType = `/todos/${number}`;
+type FetchKeyType = `/todos/${number}` | `/todos/new`;
 
 interface ArgsType<T> {
   key: FetchKeyType | null;

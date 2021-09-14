@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { mutate } from "swr";
 
 import { ResponseTodoType } from "../domains/todo";
 import { requestPatchTodo } from "../apis/requestPatchTodo";
@@ -17,6 +18,7 @@ export const useRequestPatchTodo = () => {
 
     if (res) {
       alert("success!");
+      mutate<ResponseTodoType>("/todos/1");
     } else {
       console.log("failure");
     }

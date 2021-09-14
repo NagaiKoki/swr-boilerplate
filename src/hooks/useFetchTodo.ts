@@ -18,7 +18,7 @@ interface IResponse {
 export const useFetchTodo = (): IResponse => {
   const { data, mutate } = useFetch<ResponseTodoType>({
     key: "/todos/1",
-    fetcher: () => requestFetchTodo(1),
+    fetcher: (args) => requestFetchTodo(args),
   });
 
   const handleOnChangeTitle = useCallback((value: string) => {
