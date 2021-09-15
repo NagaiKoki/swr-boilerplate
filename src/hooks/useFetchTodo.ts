@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 import { useFetch } from "./useFetch";
 import { requestFetchTodo } from "../apis/requestFetchTodo";
 import { ResponseTodoType } from "../domains/todo";
@@ -16,9 +18,12 @@ interface IResponse {
 }
 
 export const useFetchTodo = (): IResponse => {
+  const { todo_id } = useRouter().query;
+  const id = Number(todo_id);
+
   const { data, mutate } = useFetch<ResponseTodoType>({
-    key: "/todos/1",
-    fetcher: (args) => requestFetchTodo(args),
+    key: `/todos/${id}`,
+    fetcher: todo_id ? () => requestFetchTodo(id) : null,
   });
 
   const handleOnChangeTitle = useCallback((value: string) => {

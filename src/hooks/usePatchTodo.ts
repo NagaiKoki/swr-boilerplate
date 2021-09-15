@@ -1,24 +1,27 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { mutate } from "swr";
 
 import { ResponseTodoType } from "../domains/todo";
 import { requestPatchTodo } from "../apis/requestPatchTodo";
 
-type RequestType = Pick<ResponseTodoType, "title" | "id">;
+type RequestType = Pick<ResponseTodoType, "title">;
 
 export const useRequestPatchTodo = () => {
+  const { todo_id } = useRouter().query;
+  const id = Number(todo_id);
+
   const [isRequesting, setIsRequesting] = useState(false);
   const [requestTargets, setRequestTargets] = useState<RequestType>({
-    id: 0,
     title: "",
   });
 
   const handleOnRequest = async () => {
-    const res = await requestPatchTodo(requestTargets);
+    const res = await requestPatchTodo({ title: requestTargets.title, id });
 
     if (res) {
       alert("success!");
-      mutate<ResponseTodoType>("/todos/1");
+      mutate<ResponseTodoType>(`/todos/${id}`);
     } else {
       console.log("failure");
     }
